@@ -62,7 +62,7 @@ const getbyExactUsername = async() => {
                     } else {
                         console.log("This Person has the following rank: ")
                         tagsort(tags)
-
+                        
 
                         savedUser = object['id']
                         savedUserName = object['displayName']
@@ -121,56 +121,10 @@ const getbyUsername = async() => {
                         res.status(err.status)
                         res.render('error', { error: err })
                     })
-                    var friendstatus = object['isFriend']
-                    if (friendstatus === "false") {
-                        console.log("Friendship: This Person is not your Friend.")
-                    } else if (friendstatus === "true") {
-                        console.log("Friendship: This Person is your Friend")
-                    }
-
-
-                    var tags = object['tags']
-
-                    console.log("\n")
-                        /*
-                        if (tags == "undefined" || tags == null) {
-                            console.log("User not found. Please try again.".red)
-                        } else {
-                            console.log("This Person has the following rank: ")
-                            tagsort(tags)
-                        */
-
-                    savedUser = object['id']
-                    savedUserName = object['displayName']
-                    let onlinestate = "undefined";
-
-                    // Colorize Online & Offline state
-
-                    if (object['state'] == 'online') {
-                        onlinestate = "online".green
-                    } else if (object['state'] == 'offline') {
-                        onlinestate = "offline".red
-                    } else {
-                        onlinestate = "offline".red
-                    }
-                    console.log(object)
-                        /*
-                                            console.log("\n")
-                                            console.log("Current Status: " + "\n" + object['bio'].brightBlue)
-                                            console.log("\n")
-                                            console.log("Online-State: " + onlinestate)
-                                            console.log("Last Login: " + object['last_login'])
-                                            console.log("Current Location: " + object['location'])
-                                            console.log("\\(*-*)/ - " + "I saved the userID from " + savedUserName + " for later use.")
-                                            console.log("\n")
-                                            console.log("writing result's in webapp..")
-                                            let outputlocation = object['location'].substring(0, object['location'].length - 6);
-                                            console.log(outputlocation);
-                          
-                                            app.get("/vrc", function(req, res) {
-                                                res.send("Avatar Image: " + "<img " + "src='" + object['currentAvatarThumbnailImageUrl'] + "'/>" + "<br/>" + "User: " + savedUserName + "<br/>" + "UserID: " + savedUser + "<br/>" + "Friendship: " + friendstatus + "<br/>" + "Rank: " + globalrank + "<br/>" + "Online - State: " + object['state'] + "<br/>" + "Current Location: " + "<iframe src='" + "https://en.vrcw.net/world/detail/" + outputlocation + "'" + "></iframe>")
-                                            })
-                          */
+                        console.log("Showing the first 3 Entry's..".blue + "\n")
+                        console.log(object[0])
+                        console.log(object[1])
+                        console.log(object[2])
                     end = true;
                 })
         } catch (ex) {
@@ -260,7 +214,7 @@ async function sendFriendRequest() {
     const data = {
         "apiKey": apiKey.substring(8, apiKey.length),
         "type": "friendRequest",
-        "message": "vrlfp"
+        "message": ""
     }
 
     await fetch(apiURL + endpoint + "&" + apiKey.substring(1, apiKey.length), { method: "POST", headers: headers2, body: JSON.stringify(data), apiKey: apiKey.substring(8, apiKey.length) })
