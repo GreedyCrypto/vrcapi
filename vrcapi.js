@@ -264,7 +264,47 @@ async function serverStatus() {
 
 
 
+async function getActivePPL(){
+    do{
+        let apiKey = "&apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
+        endpoint = "auth/user/friends?offline=false"
+               try {
+            await fetch(apiURL + endpoint + apiKey, { method: 'GET', headers: headers }, false)
+                .then(response => response.json())
+                .then((object) => {
+                    app.use((err, req, res, next) => {
+                        res.status(err.status)
+                        res.render('error', { error: err })
+                    })
+                        
+                        console.log("User overwatch started, cancel with STRG+C: \n")
+                        console.log("I've found ".blue + object.length + " active users.".blue + "\n")
+                        console.log("Active Users: \n")
+                        for(var i = 0; i < object.length ; i++){                     
+                        console.log("----------------------------------------".red)
+                        console.log("Username: ".green + object[i]['username'])
+                        console.log("Displayname: ".green + object[i]['displayName'])
+                        console.log("Current Location: ".green + object[i]['location'])
+                        console.log("----------------------------------------".red)
+                        }
+                        fs.writeFile("./onlineppl.txt", object, function(err) {
+                            if(err){
+                                return console.log(err)
+                            }
+                            console.log("Data saved successfully to onlineppl.txt".green)
+                        })   
+                        console.log("Got users successfully.")
+                    end = true;
+                })
+        } catch (ex) {
+            console.log(ex.message, "User not found. Please try again.");
+            end = false;
+        }
+}while(end == false)
+console.log("Press any key to continue")
+await io.read()
 
+}
 
 
 
@@ -445,7 +485,8 @@ async function main() {
         console.log("6. Set Status description")
         console.log("7. Get Server Status")
         console.log("8. Send Friend Request")
-        console.log("9. End Program")
+        console.log("9. Active PPL Status")
+        console.log("10. End Program")
 
         const options = await io.read()
         switch (options) {
@@ -474,6 +515,9 @@ async function main() {
                 await sendFriendRequest()
                 break
             case "9":
+                await getActivePPL()
+                break
+            case "10":
                 end = true
                 server.close()
                 break
