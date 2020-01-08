@@ -137,7 +137,33 @@ const getbyUsername = async() => {
     await io.read()
 }
 
-
+const getById = async() => {
+do{
+        console.log("Please enter UserID: ")
+        let searchuser = await io.read()
+        let apiKey = "&apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
+        endpoint = "users" + searchuser
+        try {
+            await fetch(apiURL + endpoint + apiKey, { method: 'GET', headers: headers }, false)
+                .then(response => response.json())
+                .then((object) => {
+                    app.use((err, req, res, next) => {
+                        res.status(err.status)
+                        res.render('error', { error: err })
+                    })
+                        console.log("I've found the following user: \n")
+                        console.log(object)
+                    end = true;
+                })
+        } catch (ex) {
+            console.log(ex.message, "User not found. Please try again.");
+            end = false;
+        }
+}while(end == false)
+console.log("Press any key to continue")
+await io.read()
+}
+    
 
 
 let sendmessage = async() => {
@@ -413,12 +439,13 @@ async function main() {
     while (end == false) {
         console.log("1. Search for exact username")
         console.log("2. Search by Username")
-        console.log("3. SendMessage to a user by ID")
-        console.log("4. My Account information")
-        console.log("5. Set Status description")
-        console.log("6. Get Server Status")
-        console.log("7. Send Friend Request")
-        console.log("8. End Program")
+        console.log("3. Get User by ID")
+        console.log("4. SendMessage to a user by ID")
+        console.log("5. My Account information")
+        console.log("6. Set Status description")
+        console.log("7. Get Server Status")
+        console.log("8. Send Friend Request")
+        console.log("9. End Program")
 
         const options = await io.read()
         switch (options) {
@@ -429,21 +456,24 @@ async function main() {
                 await getbyUsername()
                 break
             case "3":
-                await sendmessage()
+                await getById()
                 break
             case "4":
-                await whoAmI()
+                await sendmessage()
                 break
             case "5":
-                await setStatus()
+                await whoAmI()
                 break
             case "6":
-                await serverStatus()
+                await setStatus()
                 break
             case "7":
-                await sendFriendRequest()
+                await serverStatus()
                 break
             case "8":
+                await sendFriendRequest()
+                break
+            case "9":
                 end = true
                 server.close()
                 break
