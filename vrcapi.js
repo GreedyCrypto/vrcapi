@@ -141,8 +141,8 @@ const getById = async() => {
 do{
         console.log("Please enter UserID: ")
         let searchuser = await io.read()
-        let apiKey = "&apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
-        endpoint = "users" + searchuser
+        let apiKey = "?apiKey=JlE5Jldo5Jibnk5O5hTx6XVqsJu4WJ26"
+        endpoint = "users/" + searchuser
         try {
             await fetch(apiURL + endpoint + apiKey, { method: 'GET', headers: headers }, false)
                 .then(response => response.json())
